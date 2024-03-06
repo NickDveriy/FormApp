@@ -1,0 +1,67 @@
+datasource db {
+    provider = "postgresql"
+    url      = "profound-surf-416416:us-central1:form-app-0603"
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model User {
+    id        Int      @id @default(autoincrement())
+    email     String   @unique
+    firstName String
+    lastName  String
+    password  String
+    role      Role     @default(USER)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    Form      Form[]
+}
+
+model Form {
+    id        Int       @id @default(autoincrement())
+    title     String
+    createdAt DateTime  @default(now())
+    userId    Int
+    createdBy User      @relation(fields: [userId], references: [id])
+    Question  Question?
+    Response  Response?
+}
+
+model Question {
+    id           Int          @id @default(autoincrement())
+    formId       Int          @unique
+    form         Form         @relation(fields: [formId], references: [id])
+    label        String
+    type         QuestionType @default(String)
+    questionText String
+    Answer       Answer?
+}
+
+model Response {
+    id             Int      @id @default(autoincrement())
+    formId         Int      @unique
+    form           Form     @relation(fields: [formId], references: [id])
+    submissionDate DateTime @default(now())
+    Answer         Answer[]
+}
+
+model Answer {
+    id          Int          @id @default(autoincrement())
+    responseId  Int          @unique
+    response    Response     @relation(fields: [responseId], references: [id])
+    questionId  Int          @unique
+    question    Question     @relation(fields: [questionId], references: [id])
+    answerValue QuestionType
+}
+
+enum Role {
+    USER
+    ADMIN
+}
+
+enum QuestionType {
+    String
+    Int
+}
