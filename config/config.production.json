@@ -1,0 +1,6 @@
+{
+  "LOG_LEVEL": "info",
+  "NODE_ENV": "production",
+  "PORT": 3000,
+  "APP_JWT_SECRET": "test_token"
+}

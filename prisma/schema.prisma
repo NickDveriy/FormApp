@@ -1,6 +1,6 @@
 datasource db {
     provider = "postgresql"
-    url      = "profound-surf-416416:us-central1:form-app-0603"
+    url      = env("DATABASE_URL")
 }
 
 generator client {
