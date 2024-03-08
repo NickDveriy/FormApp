@@ -20,38 +20,38 @@ model User {
 }
 
 model Form {
-    id        Int       @id @default(autoincrement())
+    id        Int        @id @default(autoincrement())
     title     String
-    createdAt DateTime  @default(now())
+    createdAt DateTime   @default(now())
     userId    Int
-    createdBy User      @relation(fields: [userId], references: [id])
-    Question  Question?
-    Response  Response?
+    createdBy User       @relation(fields: [userId], references: [id])
+    questions Question[]
+    responses Response[]
 }
 
 model Question {
     id           Int          @id @default(autoincrement())
-    formId       Int          @unique
-    form         Form         @relation(fields: [formId], references: [id])
+    formId       Int
+    form         Form         @relation(fields: [formId], references: [id], onDelete: Cascade)
     label        String
     type         QuestionType @default(String)
     questionText String
-    Answer       Answer?
+    Answer       Answer[]
 }
 
 model Response {
     id             Int      @id @default(autoincrement())
-    formId         Int      @unique
-    form           Form     @relation(fields: [formId], references: [id])
+    formId         Int
+    form           Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
     submissionDate DateTime @default(now())
     Answer         Answer[]
 }
 
 model Answer {
     id          Int          @id @default(autoincrement())
-    responseId  Int          @unique
-    response    Response     @relation(fields: [responseId], references: [id])
-    questionId  Int          @unique
+    responseId  Int
+    response    Response     @relation(fields: [responseId], references: [id], onDelete: Cascade)
+    questionId  Int
     question    Question     @relation(fields: [questionId], references: [id])
     answerValue QuestionType
 }

@@ -16,8 +16,6 @@ export const authUser = async (request: IUserRequest, reply: FastifyReply) => {
 
     const user: any = JWT.verify(token, config.APP_JWT_SECRET)
 
-    console.log("User", user)
-
     if (!user.id) {
       return reply.code(401).send(ERRORS.userNotAuth)
     }
@@ -28,8 +26,8 @@ export const authUser = async (request: IUserRequest, reply: FastifyReply) => {
       return reply.code(401).send(ERRORS.userNotExists)
     }
     request.authUser = userData
-  } catch (e) {
-    return reply.code(401).send(e)
+  } catch (err) {
+    return reply.code(401).send(err)
   }
 }
 

@@ -6,6 +6,7 @@ import pino from "pino"
 import userRouter from "./routers/user.router"
 import formRouter from "./routers/form.router"
 import { config } from "./utils/loadConfig"
+import questionRouter from "./routers/question.router"
 
 const port = config.PORT || 3030
 
@@ -19,15 +20,16 @@ const startServer = async () => {
     server.register(helmet)
     server.register(userRouter, { prefix: "/api/user" })
     server.register(formRouter, { prefix: "/api/form" })
+    server.register(questionRouter, { prefix: "/api/question" })
 
     await server.listen({ port })
-  } catch (e) {
-    console.error(e)
+  } catch (err) {
+    console.error("startServer error: ", err)
   }
 }
 
-process.on("unhandledRejection", (e) => {
-  console.error(e)
+process.on("unhandledRejection", (err) => {
+  console.error("UnhandledRejection: ", err)
   process.exit(1)
 })
 

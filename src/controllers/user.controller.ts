@@ -29,6 +29,7 @@ export const login = async (request: IUserRequest, reply: FastifyReply) => {
       user: { ...user, password: null },
     })
   } catch (err) {
+    console.error("login error: ", err)
     return reply.status(500).send(ERRORS.internalServerError)
   }
 }
@@ -47,7 +48,6 @@ export const signUp = async (request: IUserRequest, reply: FastifyReply) => {
         firstName,
         lastName,
         password: String(hashPass),
-        role: "USER",
       },
     })
     const token = JWT.sign(
@@ -62,6 +62,17 @@ export const signUp = async (request: IUserRequest, reply: FastifyReply) => {
       user: { ...newUser, password: null },
     })
   } catch (err) {
+    console.error("signUp error: ", err)
+    return reply.status(500).send(ERRORS.internalServerError)
+  }
+}
+
+export const listUsers = async (request: IUserRequest, reply: FastifyReply) => {
+  try {
+    const data = await prismaClient.user.findMany()
+    return reply.code(200).send({ data })
+  } catch (err) {
+    console.error("listUsers error: ", err)
     return reply.status(500).send(ERRORS.internalServerError)
   }
 }

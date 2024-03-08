@@ -7,7 +7,7 @@ export const utils = {
   isJSON: (data: string) => {
     try {
       JSON.parse(data)
-    } catch (e) {
+    } catch (err) {
       return false
     }
     return true

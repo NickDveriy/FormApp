@@ -1,6 +1,8 @@
 import { FastifyInstance } from "fastify"
 import { loginSchema, signupSchema } from "../schema"
-import { login, signUp } from "../controllers/user.controller"
+
+import { login, signUp, listUsers } from "../controllers/user.controller"
+import { authUser, checkIfUserIsAdmin } from "../utils/requestValidation"
 
 async function userRouter(fastify: FastifyInstance) {
   fastify.decorateRequest("authUser", "")
@@ -17,6 +19,13 @@ async function userRouter(fastify: FastifyInstance) {
     url: "/signup",
     schema: signupSchema,
     handler: signUp,
+  })
+
+  fastify.route({
+    method: "GET",
+    url: "/list",
+    preHandler: [authUser, checkIfUserIsAdmin],
+    handler: listUsers,
   })
 }
 
