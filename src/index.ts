@@ -8,7 +8,7 @@ import formRouter from "./routers/form.router"
 import { config } from "./utils/loadConfig"
 import questionRouter from "./routers/question.router"
 
-const port = +process.env.PORT || 3030
+const port = +config.PORT || 3030
 
 const startServer = async () => {
   try {
