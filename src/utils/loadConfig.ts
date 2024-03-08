@@ -1,6 +1,6 @@
 import nconf from "nconf"
 import { join } from "path"
-import conf from "../../config/config.production.json"
+import conf from "../../config/config.develop.json"
 
 type Conf = typeof conf
 

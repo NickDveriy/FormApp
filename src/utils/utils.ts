@@ -4,19 +4,6 @@ import { PrismaClient } from "@prisma/client"
 export const prismaClient = new PrismaClient()
 
 export const utils = {
-  isJSON: (data: string) => {
-    try {
-      JSON.parse(data)
-    } catch (err) {
-      return false
-    }
-    return true
-  },
-  getTime: () => {
-    const date = new Date()
-    const time = date.getTime()
-    return time
-  },
   generateSalt: (rounds: number, value: string) => {
     return new Promise((resolve, reject) => {
       const salt = bcrypt.genSaltSync(rounds)
