@@ -26,7 +26,7 @@ const startServer = async () => {
       reply.send({ name: "FormApp API" })
     })
 
-    await server.listen({ port })
+    await server.listen({ port, host: "0.0.0.0" })
   } catch (err) {
     console.error("startServer error: ", err)
   }
