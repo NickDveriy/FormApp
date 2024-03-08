@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify"
 import { ERRORS } from "../utils/errorsTable"
 import { prismaClient } from "../utils/utils"
 import { Prisma } from "@prisma/client"
+import { IParamsId } from "../interfaces"
 
 export const createForm = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
@@ -45,14 +46,13 @@ export const getAllFormsForUser = async (request: FastifyRequest, reply: Fastify
 
 export const getFormById = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
-    //@ts-ignore
-    const { id } = request.params
+    const { id } = request.params as IParamsId
 
     const form = await prismaClient.form.findUnique({
       where: {
         id: +id,
       },
-      include: { questions: true, responses: true },
+      include: { questions: true },
     })
 
     return reply.status(200).send({ data: form })
@@ -64,8 +64,7 @@ export const getFormById = async (request: FastifyRequest, reply: FastifyReply) 
 
 export const deleteForm = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
-    //@ts-ignore
-    const { id } = request.params
+    const { id } = request.params as IParamsId
 
     await prismaClient.form.delete({
       where: {
@@ -77,5 +76,52 @@ export const deleteForm = async (request: FastifyRequest, reply: FastifyReply) =
   } catch (err) {
     console.error("deleteForm error: ", err)
     return reply.status(501).send(ERRORS.internalServerError)
+  }
+}
+
+export const createQuestionInForm = async (request: FastifyRequest, reply: FastifyReply) => {
+  try {
+    const data = request.body as Prisma.QuestionUncheckedCreateInput
+
+    const updatedForm = await prismaClient.form.update({
+      where: { id: +data.formId },
+      data: {
+        questions: {
+          create: {
+            label: data.label,
+            questionText: data.questionText,
+            type: data.type,
+          },
+        },
+      },
+    })
+
+    return reply.status(200).send({ data: updatedForm })
+  } catch (err) {
+    console.error("createQuestion error: ", err)
+    return reply.status(500).send(ERRORS.internalServerError)
+  }
+}
+
+export const createResponseForForm = async (request: FastifyRequest, reply: FastifyReply) => {
+  try {
+    const data = request.body as Prisma.ResponseUncheckedCreateInput
+
+    const updatedForm = await prismaClient.form.update({
+      where: { id: +data.formId },
+      data: {
+        responses: {
+          create: {
+            submissionDate: new Date(),
+            answers: { createMany: { data: data.answers as Prisma.AnswerCreateManyInput } },
+          },
+        },
+      },
+    })
+
+    return reply.status(200).send({ data: updatedForm })
+  } catch (err) {
+    console.error("createResponseForForm error: ", err)
+    return reply.status(500).send(ERRORS.internalServerError)
   }
 }

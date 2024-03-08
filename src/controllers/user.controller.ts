@@ -1,5 +1,5 @@
 import { FastifyReply } from "fastify"
-import { IUserRequest } from "../interfaces/user.interface"
+import { IUserRequest } from "../interfaces"
 import { prismaClient, utils } from "../utils/utils"
 import { ERRORS } from "../utils/errorsTable"
 import * as JWT from "jsonwebtoken"

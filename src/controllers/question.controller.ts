@@ -1,6 +1,8 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { ERRORS } from "../utils/errorsTable"
 import { prismaClient } from "../utils/utils"
+import { IParamsId } from "../interfaces"
+import { Prisma } from "@prisma/client"
 
 export const getAllQuestions = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
@@ -15,8 +17,7 @@ export const getAllQuestions = async (request: FastifyRequest, reply: FastifyRep
 
 export const deleteQuestion = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
-    //@ts-ignore
-    const { id } = request.params
+    const { id } = request.params as IParamsId
 
     await prismaClient.question.delete({
       where: {

@@ -8,23 +8,21 @@ generator client {
 }
 
 model User {
-    id        Int      @id @default(autoincrement())
-    email     String   @unique
+    id        Int        @id @default(autoincrement())
+    email     String     @unique
     firstName String
     lastName  String
     password  String
-    role      Role     @default(USER)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    Form      Form[]
+    role      Role       @default(USER)
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    Response  Response[]
 }
 
 model Form {
     id        Int        @id @default(autoincrement())
     title     String
     createdAt DateTime   @default(now())
-    userId    Int
-    createdBy User       @relation(fields: [userId], references: [id])
     questions Question[]
     responses Response[]
 }
@@ -36,7 +34,7 @@ model Question {
     label        String
     type         QuestionType @default(String)
     questionText String
-    Answer       Answer[]
+    answers      Answer[]
 }
 
 model Response {
@@ -44,7 +42,9 @@ model Response {
     formId         Int
     form           Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
     submissionDate DateTime @default(now())
-    Answer         Answer[]
+    answers        Answer[]
+    userId         Int
+    submittedBy    User     @relation(fields: [userId], references: [id])
 }
 
 model Answer {
