@@ -22,6 +22,10 @@ const startServer = async () => {
     server.register(formRouter, { prefix: "/api/form" })
     server.register(questionRouter, { prefix: "/api/question" })
 
+    server.get("/", (request, reply) => {
+      reply.send({ name: "FormApp API" })
+    })
+
     await server.listen({ port })
   } catch (err) {
     console.error("startServer error: ", err)
