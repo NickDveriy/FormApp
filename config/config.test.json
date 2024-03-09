@@ -1,0 +1,7 @@
+{
+    "LOG_LEVEL": "trace",
+    "NODE_ENV": "test",
+    "PORT": 3030,
+    "APP_JWT_SECRET": "test_token"
+  }
+  

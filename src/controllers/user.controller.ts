@@ -10,11 +10,11 @@ export const login = async (request: IUserRequest, reply: FastifyReply) => {
     const { email, password } = request.body
     const user = await prismaClient.user.findUnique({ where: { email: email } })
     if (!user) {
-      return reply.code(400).send(ERRORS.userNotExists)
+      return reply.code(204).send(ERRORS.userNotExists.message)
     }
     const isValidPassword = await utils.compareHash(password, user.password)
     if (!isValidPassword) {
-      return reply.code(400).send(ERRORS.invalidCreds)
+      return reply.code(401).send(ERRORS.invalidCreds)
     }
 
     const token = JWT.sign(
