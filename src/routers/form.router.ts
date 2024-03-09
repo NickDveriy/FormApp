@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify"
 import { createFormSchema, idSchema } from "../schema"
-import { createForm, getAllFormsForUser, getFormById, deleteForm } from "../controllers/form.controller"
+import { createForm, getAllForms, getFormById, deleteForm } from "../controllers/form.controller"
 import { authUser, checkIfUserIsAdmin } from "../utils/requestValidation"
 
 async function formRouter(fastify: FastifyInstance) {
@@ -17,7 +17,7 @@ async function formRouter(fastify: FastifyInstance) {
     method: "GET",
     url: "/list",
     preHandler: [authUser, checkIfUserIsAdmin],
-    handler: getAllFormsForUser,
+    handler: getAllForms,
   })
 
   fastify.route({

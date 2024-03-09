@@ -7,6 +7,7 @@ import userRouter from "./routers/user.router"
 import formRouter from "./routers/form.router"
 import { config } from "./utils/loadConfig"
 import questionRouter from "./routers/question.router"
+import responseRouter from "./routers/response.router"
 
 const port = +config.PORT || 3030
 
@@ -21,6 +22,7 @@ const startServer = async () => {
     server.register(userRouter, { prefix: "/api/user" })
     server.register(formRouter, { prefix: "/api/form" })
     server.register(questionRouter, { prefix: "/api/question" })
+    server.register(responseRouter, { prefix: "/api/response" })
 
     server.get("/", (request, reply) => {
       reply.send({ name: "FormApp API" })

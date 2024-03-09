@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify"
-import { createFormSchema } from "../schema"
+import { createResponseSchema } from "../schema"
 import { createResponseForForm } from "../controllers/form.controller"
 import { authUser } from "../utils/requestValidation"
 
@@ -9,7 +9,7 @@ async function responseRouter(fastify: FastifyInstance) {
   fastify.route({
     method: "POST",
     url: "/create",
-    //schema: createFormSchema,
+    schema: createResponseSchema,
     preHandler: [authUser],
     handler: createResponseForForm,
   })

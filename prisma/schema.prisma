@@ -48,12 +48,12 @@ model Response {
 }
 
 model Answer {
-    id          Int          @id @default(autoincrement())
+    id          Int      @id @default(autoincrement())
     responseId  Int
-    response    Response     @relation(fields: [responseId], references: [id], onDelete: Cascade)
+    response    Response @relation(fields: [responseId], references: [id], onDelete: Cascade)
     questionId  Int
-    question    Question     @relation(fields: [questionId], references: [id])
-    answerValue QuestionType
+    question    Question @relation(fields: [questionId], references: [id])
+    answerValue String
 }
 
 enum Role {

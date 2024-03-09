@@ -7,4 +7,5 @@ export const ERRORS = {
   invalidCreds: new Error("Invalid email or password"),
   internalServerError: new Error("Internal Server Error"),
   forbiddenAccess: new Error("Forbidden"),
+  formIsAnswered: new Error("You have already answered this form"),
 }

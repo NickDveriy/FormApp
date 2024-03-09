@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify"
 import { idSchema } from "../schema"
 import { deleteQuestion, getAllQuestions } from "../controllers/question.controller"
 import { authUser, checkIfUserIsAdmin } from "../utils/requestValidation"
-import { createQuestionSchema } from "../schema/question.schema"
+import { createQuestionSchema } from "../schema"
 import { createQuestionInForm } from "../controllers/form.controller"
 
 async function questionRouter(fastify: FastifyInstance) {
